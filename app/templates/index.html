@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Credit Card Fraud Detection</title>
+    <style>
+        body {
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #141e30, #243b55);
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h2 {
+            margin-top: 40px;
+            font-size: 2rem;
+            text-align: center;
+        }
+
+        p {
+            margin-bottom: 10px;
+            font-size: 1rem;
+            color: #ddd;
+        }
+
+        form {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+            max-width: 800px;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        textarea {
+            width: 100%;
+            border: none;
+            border-radius: 8px;
+            padding: 10px;
+            font-size: 1rem;
+            resize: none;
+            box-sizing: border-box;
+        }
+
+        button {
+            margin-top: 15px;
+            background: #ff416c;
+            background: linear-gradient(to right, #ff4b2b, #ff416c);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            padding: 12px 25px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .result {
+            margin-top: 25px;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 1.2rem;
+        }
+
+        .fraud {
+            background: rgba(255, 0, 0, 0.15);
+            border: 2px solid #ff4b2b;
+            color: #ff4b2b;
+        }
+
+        .non-fraud {
+            background: rgba(0, 255, 0, 0.15);
+            border: 2px solid #4CAF50;
+            color: #4CAF50;
+        }
+
+        .error {
+            color: #ffcccb;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <h2>💳 Credit Card Fraud Detection</h2>
+    <p>Enter values as comma-separated (Time, V1, V2, ..., V28, Amount)</p>
+
+    <form method="POST" action="/predict">
+        <textarea name="features" rows="4" placeholder="0, -1.3598, -0.0727, ... , 149.62" required></textarea>
+        <br>
+        <button type="submit">🔍 Predict</button>
+    </form>
+
+    {% if prediction %}
+    <div class="result {% if prediction['prediction']=='Fraud' %}fraud{% else %}non-fraud{% endif %}">
+        <h3>Prediction: {{prediction['prediction']}}</h3>
+        <p>Fraud Probability: {{prediction['fraud_probability']}}</p>
+    </div>
+    {% endif %}
+
+    {% if error %}
+    <p class="error">{{error}}</p>
+    {% endif %}
+</body>
+
+</html>
